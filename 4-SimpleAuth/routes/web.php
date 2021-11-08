@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+use App\Http\Controllers\LoginController;
+
+Route::get('/', [LoginController::class, 'index']);
+Route::get('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/login', [LoginController::class, 'authenticate']);
+Route::get('/register', [LoginController::class, 'register']);
+Route::post('/register', [LoginController::class, 'store']);
+Route::get('/dashboard', [LoginController::class, 'dashboard'])->middleware('auth');
+Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');
