@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HardwareController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HardwareController::class, 'index'])->name('index');
+Route::post('/', [HardwareController:: class, 'store'])->name('insertHardware');
+Route::get('/hardware/{type}', [HardwareController:: class, 'show'])->name('showHardware');
