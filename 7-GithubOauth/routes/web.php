@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view("welcome");
+})->name('index');
+
+Route::get('/login', [LoginController::class, 'githubAuth'])->name('login');
+
+Route::get('logout', function() {
+    Auth::logout();
+    return redirect('/');
+})->name('logout');
