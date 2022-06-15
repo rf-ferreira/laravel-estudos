@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\ViewController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware('guest')->group(function () {
+    Route::get('/', [AuthController::class, 'index'])->name('auth.index');
+    Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
+    Route::post('/authenticate', [AuthController::class, 'authenticate'])->name('auth.authenticate');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+    Route::get('/admin', [ViewController::class, 'viewAdmin'])->name('admin.index')->middleware('role:admin');
+    Route::get('/moderator', [ViewController::class, 'viewModerator'])->name('moderator.index')->middleware(('role:moderator'));
 });
